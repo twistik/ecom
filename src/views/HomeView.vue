@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <h1>Products</h1>
+    <v-progress-linear v-if="productStore.loading" indeterminate color="primary"></v-progress-linear>
     <v-row>
       <v-col cols="12">
         <!-- Search Input -->
@@ -43,20 +44,22 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useProductStore } from '@/stores/productStore';
 import { useCartStore } from '@/stores/cartStore';
-import { useRoute } from 'vue-router';
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
-const route = useRoute();
 
 const searchQuery = ref('');
 
-// Fetch all products on component mount
-productStore.fetchProducts();
-
+// Fetch all products only once when the component is mounted
+onMounted(() => {
+  if (productStore.allProducts.length === 0) {
+    productStore.fetchProducts();
+  }
+  productStore.resetProducts(); // Reset products to show all products
+});
 // Categories for filtering
 const categories = [
   'electronics',
@@ -65,16 +68,10 @@ const categories = [
   "women's clothing",
 ];
 
-// Computed property to filter products based on search query and category
+// Computed property to filter products based on search query
 const filteredProducts = computed(() => {
   let products = productStore.products;
 
-  // Filter by category if on a category page
-  if (route.params.category) {
-    products = products.filter(
-      (product) => product.category === route.params.category
-    );
-  }
   // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
