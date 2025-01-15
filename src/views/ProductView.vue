@@ -1,5 +1,8 @@
 <template>
     <v-container>
+      <v-btn @click="goBack" rounded="xl" class="bg-orange-darken-2 font-weight-medium mb-4">
+      <v-icon>mdi-arrow-left</v-icon> Back
+    </v-btn>
       <v-card v-if="product">
         <v-img :src="product.image" height="400"></v-img>
         <v-card-title>{{ product.title }}</v-card-title>
@@ -8,24 +11,80 @@
         <v-card-actions>
           <v-btn color="primary" @click="addToCart(product)">Add to Cart</v-btn>
         </v-card-actions>
+        <v-card-actions>
+                            <!-- Quantity Selector -->
+        <v-btn @click="decrementQuantity" :disabled="quantity <= 1" icon="mdi-minus">
+        </v-btn>
+        <v-text-field
+          v-model.number="quantity"
+          style="max-width: 50px;"
+          density="compact"
+          center-affix
+          variant="outlined"
+          hide-details="true"
+        ></v-text-field>
+        <v-btn @click="incrementQuantity" icon="mdi-plus">
+        </v-btn>
+        </v-card-actions>
       </v-card>
     </v-container>
   </template>
   
   <script setup>
-  import { useProductStore } from '@/stores/productStore';
-  import { useCartStore } from '@/stores/cartStore';
-  import { computed } from 'vue';
-  
-  const props = defineProps(['id']);
-  const productStore = useProductStore();
-  const cartStore = useCartStore();
-  
-  const product = computed(() =>
-    productStore.products.find((p) => p.id === parseInt(props.id))
-  );
-  
-  const addToCart = (product) => {
-    cartStore.addToCart(product);
-  };
-  </script>
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useProductStore } from '@/stores/productStore';
+import { useCartStore } from '@/stores/cartStore';
+
+const route = useRoute();
+const router = useRouter();
+const productStore = useProductStore();
+const cartStore = useCartStore();
+
+const product = ref(null);
+const quantity = ref(1); // Default quantity
+
+// Fetch product details when the component is mounted
+onMounted(() => {
+  fetchProduct(route.params.id);
+});
+
+// Watch for changes in the route parameter
+watch(
+  () => route.params.id,
+  (newId) => {
+    fetchProduct(newId);
+  }
+);
+
+const fetchProduct = async (productId) => {
+  const fetchedProduct = await productStore.fetchProductById(productId);
+  if (fetchedProduct) {
+    product.value = fetchedProduct;
+  } else {
+    console.log('Product not found');
+    product.value = null;
+  }
+};
+// Increment quantity
+const incrementQuantity = () => {
+  quantity.value += 1;
+};
+
+// Decrement quantity
+const decrementQuantity = () => {
+  if (quantity.value > 1) {
+    quantity.value -= 1;
+  }
+};
+
+// Add to cart with the selected quantity
+const addToCart = (product) => {
+  cartStore.addToCart(product, quantity.value); // Use the selected quantity
+  console.log(quantity.value)
+};
+
+const goBack = () => {
+  router.go(-1); // Go back to the previous page
+};
+</script>
