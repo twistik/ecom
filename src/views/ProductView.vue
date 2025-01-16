@@ -4,12 +4,13 @@
       <v-icon>mdi-arrow-left</v-icon> Back
     </v-btn>
       <v-card v-if="product">
-        <v-img :src="product.image" height="400"></v-img>
+        <v-img :src="product.image" height="400" class="mx-6 my-6"></v-img>
+        <div class="rounded-xl mx-3 my-2">
         <v-card-title>{{ product.title }}</v-card-title>
         <v-card-text>${{ product.price }}</v-card-text>
         <v-card-text>{{ product.description }}</v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="addToCart(product)">Add to Cart</v-btn>
+          <v-btn rounded="xl" class="bg-orange-darken-2 font-weight-medium" @click="addToCart(product)">Add to Cart</v-btn>
         </v-card-actions>
         <v-card-actions>
                             <!-- Quantity Selector -->
@@ -26,6 +27,7 @@
         <v-btn @click="incrementQuantity" icon="mdi-plus">
         </v-btn>
         </v-card-actions>
+      </div>
       </v-card>
     </v-container>
   </template>

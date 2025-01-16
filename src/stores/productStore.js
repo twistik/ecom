@@ -11,7 +11,7 @@ export const useProductStore = defineStore('product', {
     loading: false,
     error: null,
     currentPage: 1, // Track the current page
-    productsPerPage: 5, // Number of products to load per page
+    productsPerPage: 6, // Number of products to load per page
   }),
   actions: {
     async fetchProducts() {

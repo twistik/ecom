@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar>
-      <v-toolbar-title >E-Commerce App</v-toolbar-title>
+    <v-app-bar rounded>
+      <v-btn><v-toolbar-title lin>E-Commerce App</v-toolbar-title></v-btn>
       <v-spacer></v-spacer>
       <v-btn to="/">Home</v-btn>
       <v-btn to="/cart">Cart ({{ totalItems }})</v-btn>

@@ -3,9 +3,9 @@
     <v-btn @click="goBack" rounded="xl" class="bg-orange-darken-2 font-weight-medium mb-4">
       <v-icon>mdi-arrow-left</v-icon> Back
     </v-btn>
-    <h1>Shopping Cart</h1>
-    <h2 v-if="cartItems.length === 0">No items</h2>
-    <v-list v-else>
+    <h1 class="mb-4">Shopping Cart</h1>
+    <h2 v-if="cartItems.length === 0" class="mb-4">No items</h2>
+    <v-list v-else rounded="lg" class="mb-4">
       <v-list-item v-for="item in cartItems" :key="item.id">
         <v-list-item-title>{{ item.title }} (x{{ item.quantity }})</v-list-item-title>
         <v-list-item-subtitle>${{ item.price * item.quantity }}</v-list-item-subtitle>
@@ -32,7 +32,7 @@
     </v-list>
     <h3>Total Items: {{ totalItems }}</h3>
     <h3>Total Price: ${{ totalPrice }}</h3>
-    <v-btn to="/checkout" rounded="xl" class="bg-orange-darken-2 font-weight-medium" :disabled="cartItems.length === 0">
+    <v-btn to="/checkout" rounded="xl" class="bg-orange-darken-2 font-weight-medium mt-4 " :disabled="cartItems.length === 0">
       Proceed to Checkout
     </v-btn>
   </v-container>

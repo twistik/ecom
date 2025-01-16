@@ -1,4 +1,5 @@
 <template>
+  <HeroSesction></HeroSesction>
   <v-container>
     <h1>Products</h1>
     <v-progress-linear v-if="productStore.loading" indeterminate color="primary"></v-progress-linear>
@@ -75,6 +76,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useProductStore } from '@/stores/productStore';
 import { useCartStore } from '@/stores/cartStore';
+import HeroSesction from '@/components/HeroSesction.vue';
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
