@@ -1,34 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar rounded>
-      <v-btn><v-toolbar-title lin>E-Commerce App</v-toolbar-title></v-btn>
-      <v-spacer></v-spacer>
-      <v-btn to="/">Home</v-btn>
-      <v-btn to="/cart">Cart ({{ totalItems }})</v-btn>
-    </v-app-bar>
+    <HeaderSection></HeaderSection>
     <v-main>
       <router-view></router-view>
-    <v-footer height="100">
-    <v-container>
-      <v-row justify="center" no-gutters>
-        <v-col cols="12" md="12" class="text-center">          
-          <v-icon size="x-large" class="mdi-github">=</v-icon>
-          <v-icon size="x-large" class="mdi-linkedin">=</v-icon>
-        </v-col>
-        <v-col cols="12" md="12" class="text-center mt-4">          
-              <p>A E-Commerce App built by Vladylav Novak with 💜</p>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-footer>
+      <FooterSection></FooterSection>
 </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { useCartStore } from '@/stores/cartStore';
-import { storeToRefs } from 'pinia';
-
-const cartStore = useCartStore();
-const { totalItems } = storeToRefs(cartStore);
+import FooterSection from './components/FooterSection.vue';
+import HeaderSection from './components/HeaderSection.vue';
 </script>

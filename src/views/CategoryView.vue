@@ -50,12 +50,11 @@ const cartStore = useCartStore();
 const category = ref(route.params.category);
 const products = ref([]);
 
-// Fetch products when the component is mounted
+
 onMounted(() => {
   fetchProductsByCategory(category.value);
 });
 
-// Watch for changes in the route parameter
 watch(
   () => route.params.category,
   (newCategory) => {
@@ -66,32 +65,28 @@ watch(
 
 const fetchProductsByCategory = async (category) => {
   await productStore.fetchProductsByCategory(category);
-    // Add quantity property to each product
     products.value = productStore.products.map((product) => ({
     ...product,
-    quantity: 1, // Default quantity
+    quantity: 1, 
   }));
 };
 
-// Increment quantity for a specific product
 const incrementQuantity = (product) => {
   product.quantity += 1;
 };
 
-// Decrement quantity for a specific product
 const decrementQuantity = (product) => {
   if (product.quantity > 1) {
     product.quantity -= 1;
   }
 };
 
-// Add to cart with the selected quantity
 const addToCart = (product) => {
-  cartStore.addToCart(product, product.quantity); // Use the selected quantity
+  cartStore.addToCart(product, product.quantity);
   console.log(product.quantity);
 };
 
 const goBack = () => {
-  router.go(-1); // Go back to the previous page
+  router.go(-1);
 };
 </script>

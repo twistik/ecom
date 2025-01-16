@@ -44,14 +44,12 @@ const productStore = useProductStore();
 const cartStore = useCartStore();
 
 const product = ref(null);
-const quantity = ref(1); // Default quantity
+const quantity = ref(1); 
 
-// Fetch product details when the component is mounted
 onMounted(() => {
   fetchProduct(route.params.id);
 });
 
-// Watch for changes in the route parameter
 watch(
   () => route.params.id,
   (newId) => {
@@ -68,25 +66,23 @@ const fetchProduct = async (productId) => {
     product.value = null;
   }
 };
-// Increment quantity
+
 const incrementQuantity = () => {
   quantity.value += 1;
 };
 
-// Decrement quantity
 const decrementQuantity = () => {
   if (quantity.value > 1) {
     quantity.value -= 1;
   }
 };
 
-// Add to cart with the selected quantity
 const addToCart = (product) => {
-  cartStore.addToCart(product, quantity.value); // Use the selected quantity
+  cartStore.addToCart(product, quantity.value);
   console.log(quantity.value)
 };
 
 const goBack = () => {
-  router.go(-1); // Go back to the previous page
+  router.go(-1);
 };
 </script>

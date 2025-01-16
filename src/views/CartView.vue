@@ -10,7 +10,6 @@
         <v-list-item-title>{{ item.title }} (x{{ item.quantity }})</v-list-item-title>
         <v-list-item-subtitle>${{ item.price * item.quantity }}</v-list-item-subtitle>
         <v-card-actions>
-          <!-- Quantity Selector -->
           <v-btn @click="decrementQuantity(item)" :disabled="item.quantity <= 1">
             <v-icon>mdi-minus</v-icon>
           </v-btn>
@@ -25,7 +24,6 @@
           <v-btn @click="incrementQuantity(item)">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
-          <!-- Remove Button -->
           <v-btn @click="removeFromCart(item.id)" color="error">Remove</v-btn>
         </v-card-actions>
       </v-list-item>
@@ -46,29 +44,25 @@ import { useRouter } from 'vue-router';
 const cartStore = useCartStore();
 const router = useRouter();
 
-// Get cart items and totals from the store
 const cartItems = computed(() => cartStore.items);
 const totalItems = computed(() => cartStore.totalItems);
 const totalPrice = computed(() => cartStore.totalPrice);
 
-// Increment quantity
 const incrementQuantity = (item) => {
   cartStore.updateQuantity(item.id, item.quantity + 1);
 };
 
-// Decrement quantity
 const decrementQuantity = (item) => {
   if (item.quantity > 1) {
     cartStore.updateQuantity(item.id, item.quantity - 1);
   }
 };
 
-// Remove item from cart
 const removeFromCart = (productId) => {
   cartStore.removeFromCart(productId);
 };
 
 const goBack = () => {
-  router.go(-1); // Go back to the previous page
+  router.go(-1);
 };
 </script>

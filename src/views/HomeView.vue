@@ -33,7 +33,7 @@
       <v-col v-for="product in filteredProducts" :key="product.id" cols="12" sm="6" md="4">
         <v-card rounded="xl">
           <v-img :src="product.image" height="200" class="mx-6 my-6"></v-img>
-          <div class=" rounded-xl mx-3 my-2"  >
+          <div class=" rounded-xl mx-3 my-2">
           <v-card-title class="text-subtitle-1 font-weight-bold">{{ product.title }}</v-card-title>
           <v-card-text  class="text-h6 font-weight-bold">${{ product.price }}</v-card-text>
           <v-card-actions class="">
@@ -81,30 +81,29 @@ import HeroSesction from '@/components/HeroSesction.vue';
 const productStore = useProductStore();
 const cartStore = useCartStore();
 
-const searchQuery = ref(''); // Default quantity// Default quantity
+const searchQuery = ref('');
 
 const productQuantities = ref({});
 
-// Initialize quantities for each product
 watch(
   () => productStore.displayedProducts,
   (newProducts) => {
     newProducts.forEach(product => {
       if (!productQuantities.value[product.id]) {
-        productQuantities.value[product.id] = 1; // Default quantity
+        productQuantities.value[product.id] = 1;
       }
     });
   },
-  { immediate: true } // Initialize immediately
+  { immediate: true } 
 );
-// Fetch all products only once when the component is mounted
+
 onMounted(() => {
   if (productStore.allProducts.length === 0) {
     productStore.fetchProducts();
   }
-  productStore.resetProducts(); // Reset products to show all products
+  productStore.resetProducts();
 });
-// Categories for filtering
+
 const categories = [
   'electronics',
   'jewelery',
@@ -112,14 +111,13 @@ const categories = [
   "women's clothing",
 ];
 
-// Computed property to filter products based on search query
-// Add quantity property to each product
+
 const filteredProducts = computed(() => {
   let products = productStore.displayedProducts.map((product) => ({
     ...product,
-    quantity: 1, // Default quantity
+    quantity: 1, 
   }));
-  // Filter by search query
+
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     products = products.filter(
@@ -131,22 +129,15 @@ const filteredProducts = computed(() => {
 
   return products;
 });
-// Check if there are more products to load
+
 const showLoadMore = computed(() => {
   return productStore.displayedProducts.length < productStore.allProducts.length;
 });
 
-// Load more products
 const loadMore = () => {
   productStore.loadMoreProducts();
 };
-// Add to cart with the selected quantity
-/*const addToCart = (product) => {
-  cartStore.addToCart(product, product.quantity);
-  product.quantity = 1; // Reset quantity after adding to cart
-};*/
-// Increment quantity
-// Increment quantity
+
 const incrementQuantity = (product) => {
   productQuantities.value[product.id] += 1;
   console.log(productQuantities.value[product.id])
@@ -158,10 +149,9 @@ const decrementQuantity = (product) => {
   }
 };
 
-
 const addToCart = (product) => {
   const quantity = productQuantities.value[product.id];
-  cartStore.addToCart(product, quantity ); // Use the selected quantity
+  cartStore.addToCart(product, quantity ); 
   console.log(product.quantity)
   productQuantities.value[product.id] = 1;
 };

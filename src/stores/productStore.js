@@ -3,28 +3,27 @@ import axios from 'axios';
 
 export const useProductStore = defineStore('product', {
   state: () => ({
-    allProducts: [], // Store all products
-    products: [], // Cached products
+    allProducts: [],
+    products: [],
     displayedProducts: [],
     filteredProducts: [],
-    categoryProducts: {}, // Cache products by category
+    categoryProducts: {},
     loading: false,
     error: null,
-    currentPage: 1, // Track the current page
-    productsPerPage: 6, // Number of products to load per page
+    currentPage: 1,
+    productsPerPage: 6,
   }),
   actions: {
     async fetchProducts() {
       if (this.allProducts.length > 0) {
-        // If products are already cached, do not fetch again
         return;
       }
 
       this.loading = true;
       try {
         const response = await axios.get('https://fakestoreapi.com/products');
-        this.allProducts = response.data; // Store all products
-        this.products = response.data; // Initialize products with all products
+        this.allProducts = response.data;
+        this.products = response.data;
         this.displayedProducts = this.allProducts.slice(0, this.productsPerPage);
       } catch (error) {
         this.error = error;
@@ -37,28 +36,21 @@ export const useProductStore = defineStore('product', {
       const startIndex = (nextPage - 1) * this.productsPerPage;
       const endIndex = startIndex + this.productsPerPage;
 
-      // Add the next chunk of products to the displayed products
       this.displayedProducts = [
         ...this.displayedProducts,
         ...this.allProducts.slice(startIndex, endIndex),
       ];
 
-      this.currentPage = nextPage; // Update the current page
+      this.currentPage = nextPage;
     },
 
-    /*async fetchProductsByCategory(category) {
-      this.loading = true;
-      this.products = this.allProducts.filter(
-        (product) => product.category === category
-      );
-    },*/
     async fetchProductsByCategory(category) {
       this.loading = true;
       try {
         const response = await axios.get(
           `https://fakestoreapi.com/products/category/${category}`
         );
-        this.products = response.data; // Store filtered products
+        this.products = response.data;
       } catch (error) {
         this.error = error;
       } finally {
@@ -70,7 +62,7 @@ export const useProductStore = defineStore('product', {
       this.loading = true;
       try {
         const response = await axios.get(`https://fakestoreapi.com/products/${productId}`);
-        return response.data; // Return the fetched product
+        return response.data;
       } catch (error) {
         this.error = error;
         return null;
@@ -79,11 +71,11 @@ export const useProductStore = defineStore('product', {
       }
     },
     resetProducts() {
-      this.products = this.allProducts; // Reset products to all products
+      this.products = this.allProducts;
     },
       searchProducts(query) {
         if (!query) {
-          this.filteredProducts = this.products; // Reset to all products if no query
+          this.filteredProducts = this.products;
           return;
         }
         const lowerCaseQuery = query.toLowerCase();
