@@ -1,6 +1,6 @@
 # E-Commerce App
 
-###[live site](https://sage-starship-f483c5.netlify.app/)
+### [Live Site](https://sage-starship-f483c5.netlify.app/)
 
 ![E-Commerce Aplication](https://vlad-nn.netlify.app/_nuxt/ecom.C76aZMUe.png)
 
